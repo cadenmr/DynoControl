@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>403</width>
+    <height>335</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>401</width>
+      <height>321</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="leftMargin">
+      <number>10</number>
+     </property>
+     <property name="topMargin">
+      <number>10</number>
+     </property>
+     <property name="rightMargin">
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
+      <number>10</number>
+     </property>
+     <property name="spacing">
+      <number>20</number>
+     </property>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblForce">
+       <property name="text">
+        <string>Load Cell Force</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblInletDuty">
+       <property name="text">
+        <string>Inlet Valve Duty Cycle</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblOutletDuty">
+       <property name="text">
+        <string>Outlet Valve Duty Cycle</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblRpm">
+       <property name="text">
+        <string>Shaft RPM</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLCDNumber" name="lcdForce"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLCDNumber" name="lcdInletDuty"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLCDNumber" name="lcdOutletDuty"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLCDNumber" name="lcdRpm"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <action name="actionCalibration">
+   <property name="text">
+    <string>Calibration</string>
+   </property>
+  </action>
+  <action name="actionSteady_State">
+   <property name="text">
+    <string>Steady State</string>
+   </property>
+  </action>
+  <action name="actionRamping">
+   <property name="text">
+    <string>Ramping</string>
+   </property>
+  </action>
+  <action name="actionRoad_Simulation">
+   <property name="text">
+    <string>Road Simulation</string>
+   </property>
+  </action>
+  <action name="actionSerial_Port">
+   <property name="text">
+    <string>Serial Port</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
