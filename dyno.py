@@ -1,6 +1,6 @@
 import struct
 
-class Comms:
+class Dyno:
 
     def __init__(self, port, endian='little'):
 
@@ -12,6 +12,9 @@ class Comms:
             self.endian = False
         else:
             raise ValueError('endian must be either "big" or "little"')
+
+        self.loadCellOffset = 0
+        self.loadCellScale = 1.0
 
     def _packBoolean(self, val):
 
@@ -202,14 +205,11 @@ class Comms:
         self.ser.write(b'\x18')
         self.ser.write(self._packByte(val))
 
-
     def setLoadCellOffset(self, val):
-        self.ser.write(b'\x19')
-        self.ser.write(self._packUnsignedLong(val))
+        self.loadCellOffset = val
 
     def setLoadCellScale(self, val):
-        self.ser.write(b'\x1a')
-        self.ser.write(self._packDouble(val))
+        self.loadCellScale = val
 
     # misc
     def requestTelemetry(self):
@@ -220,13 +220,14 @@ class Comms:
         self.ser.write(b'\x1c')
         self.ser.write(self._packNull())
 
+    # rx data
     def getTelemetry(self, packet=None):
 
         if packet is None:
             packet = self.ser.read(21)
 
         if (len(packet) != 21):
-            raise ValueError(f'invalid packet: expected 22 bytes, got {len(packet)} bytes')
+            raise ValueError(f'invalid packet: expected 21 bytes, got {len(packet)} bytes')
 
         statusByte = packet[0]
         commandPass = (statusByte & 0b00100000) != 0
@@ -246,18 +247,20 @@ class Comms:
         # inletDuty = packet[7]
         # outletDuty = packet[8]
 
-        if (self.endian):
+        if self.endian:
             rpm = struct.unpack('<f', packet[1:5])[0]
-            measuredForce = struct.unpack('<f', packet[5:9])[0]
+            measuredForce = struct.unpack('<l', packet[5:9])[0]
             inletDuty = struct.unpack('<f', packet[9:13])[0]
             outletDuty = struct.unpack('<f', packet[13:17])[0]
             outletTemp = struct.unpack('<f', packet[17:21])[0]
         else:
             rpm = struct.unpack('>f', packet[1:5])[0]
-            measuredForce = struct.unpack('>f', packet[5:9])[0]
+            measuredForce = struct.unpack('>l', packet[5:9])[0]
             inletDuty = struct.unpack('>f', packet[9:13])[0]
-            outletDuty = struct.unpack('>f', packet[13:18])[0]
-            outletTemp = struct.unpack('>f', packet[18:22])[0]
+            outletDuty = struct.unpack('>f', packet[13:17])[0]
+            outletTemp = struct.unpack('>f', packet[17:21])[0]
+
+        measuredForce = (measuredForce + self.loadCellOffset) * self.loadCellScale
     
-        return (commandPass, commandFail, critical, errorCode, int(rpm), round(measuredForce, 2), 
+        return (commandPass, commandFail, critical, errorCode, int(rpm), round(measuredForce, 1), 
                 int(inletDuty), int(outletDuty), round(outletTemp, 2))
