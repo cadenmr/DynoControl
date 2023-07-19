@@ -39,6 +39,8 @@ pretty_print(ser)
 dynamo.setClientLoadCellOffset(-19500)
 dynamo.setClientLoadCellScale(-0.00009929078014)
 
+dynamo.setClientGearRatio(0.5)
+
 dynamo.setConfigComplete()
 pretty_print(ser)
 

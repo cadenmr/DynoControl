@@ -13,6 +13,8 @@ class Dyno:
         else:
             raise ValueError('endian must be either "big" or "little"')
 
+        self.gearRatio = 1
+
         self.loadCellOffset = 0
         self.loadCellScale = 1.0
 
@@ -117,6 +119,9 @@ class Dyno:
     def setShaftRpmTarget(self, val):
         self.ser.write(b'\x04')
         self.ser.write(self._packUnsignedInt(val))
+
+    def setClientGearRatio(self, val):
+        self.gearRatio = val
 
     # inlet valve parameters
     def setInletKp(self, val):
@@ -250,6 +255,7 @@ class Dyno:
             outletDuty = struct.unpack('>f', packet[13:17])[0]
             outletTemp = struct.unpack('>f', packet[17:21])[0]
 
+        rpm = rpm * self.gearRatio
         measuredForce = (measuredForce + self.loadCellOffset) * self.loadCellScale
     
         return (commandPass, commandFail, critical, errorCode, int(rpm), round(measuredForce, 1), 
