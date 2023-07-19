@@ -205,10 +205,10 @@ class Dyno:
         self.ser.write(b'\x18')
         self.ser.write(self._packByte(val))
 
-    def setLoadCellOffset(self, val):
+    def setClientLoadCellOffset(self, val):
         self.loadCellOffset = val
 
-    def setLoadCellScale(self, val):
+    def setClientLoadCellScale(self, val):
         self.loadCellScale = val
 
     # misc
@@ -234,18 +234,6 @@ class Dyno:
         commandFail = (statusByte & 0b01000000) != 0
         critical = (statusByte & 0b00010000) != 0
         errorCode = statusByte & 0b00001111
-
-        # if (self.endian):
-        #     rpm = struct.unpack('<f', packet[1:3])[0]
-        #     measuredForce = struct.unpack('<f', packet[3:7])[0]
-        #     outletTemp = struct.unpack('<f', packet[9:])[0]
-        # else:
-        #     rpm = struct.unpack('>f', packet[1:3])[0]
-        #     measuredForce = struct.unpack('>f', packet[3:7])[0]
-        #     outletTemp = struct.unpack('>f', packet[9:])[0]
-
-        # inletDuty = packet[7]
-        # outletDuty = packet[8]
 
         if self.endian:
             rpm = struct.unpack('<f', packet[1:5])[0]
