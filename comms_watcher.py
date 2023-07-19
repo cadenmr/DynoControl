@@ -36,8 +36,8 @@ pretty_print(ser)
 
 # dyno.setLoadCellResolution(128)
 
-dynamo.setLoadCellOffset(-19500)
-dynamo.setLoadCellScale(-0.00009929078014)
+dynamo.setClientLoadCellOffset(-19500)
+dynamo.setClientLoadCellScale(-0.00009929078014)
 
 dynamo.setConfigComplete()
 pretty_print(ser)
