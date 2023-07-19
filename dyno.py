@@ -199,11 +199,13 @@ class Dyno:
     # load cell parameters
     def setLoadCellResolution(self, val):
 
+        raise NotImplementedError
+
         if (val != 64 and val != 128):
             raise ValueError("resolution must be 64 or 128")
 
         self.ser.write(b'\x18')
-        self.ser.write(self._packByte(val))
+        self.ser.write(self._packUnsignedInt(val))
 
     def setClientLoadCellOffset(self, val):
         self.loadCellOffset = val

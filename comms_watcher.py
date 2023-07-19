@@ -34,7 +34,7 @@ pretty_print(ser)
 dynamo.setOutletTargetTemperature(-200)
 pretty_print(ser)
 
-# dyno.setLoadCellResolution(128)
+# dynamo.setLoadCellResolution(128)
 
 dynamo.setClientLoadCellOffset(-19500)
 dynamo.setClientLoadCellScale(-0.00009929078014)
