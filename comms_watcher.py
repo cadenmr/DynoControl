@@ -7,7 +7,8 @@ dynamo = dyno.Dyno(ser)
 
 
 def pretty_print(s):
-    print(dynamo.getTelemetry())
+    rx = s.read(21)
+    print(dynamo.getTelemetry(rx), rx.hex())
 
 
 sleep(3)
